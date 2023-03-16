@@ -1,8 +1,8 @@
 ---
-name: Jupyter Notebook
+name: Workshop Pytorch Notebook
 category: Interactive Apps
 subcategory: Servers
 role: batch_connect
-description: |
-  This app will launch a Jupyter Notebook server on one or more nodes with more advanced PBS resource request options. 
-  Users can also specify virtual/conda environments to launch custom notebooks for Tensorflow and other advanced libraries. 
+description: "This app will launch a Jupyter Notebook server with builtin queue selections
+  that are specific to RCDE's Python Machine Learning and Deep Learning workshops\r\n\r\n"
+icon: ''

@@ -33,4 +33,4 @@ script:
     - "-q"
     - "<%= pbs_queue %>"
     - "-l"
-    - "select=<%= pbs_select %>:ncpus=<%= pbs_ncpus %>:mpiprocs=<%= pbs_ncpus %>:mem=<%= pbs_mem %><%= pbs_interconnect %><%= pbs_ngpus %><%= pbs_gpu_model %><%= pbs_extras %>,walltime=<%= pbs_walltime %>"
+    - "select=1:ncpus=10:mem=60gb:interconnect=fdr:ngpus=1:gpu_model=p100,walltime=06:00:00"

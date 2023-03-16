@@ -1,6 +1,5 @@
 <%-
   # generate form id, based on host and port
-  form_tb = Digest::SHA1.hexdigest("--" + host.to_s + "--" + app_port.to_s + "--")
   form_tf = Digest::SHA1.hexdigest("--" + host.to_s + "--" + port.to_s + "--")
   test_location = Dir.pwd
   #list_env = ENV.values
@@ -18,14 +17,6 @@
   <input type="hidden" name="password" value="<%= password %>">
   <button class="btn btn-primary" type="submit">
     <i class="fa fa-eye"></i> Connect to Jupyter
-  </button>
-</form>
-</div>
-<div style="display:inline-block; width:45%;text-align:right;">
-<form id="<%= form_tb %>" action="/rnode/<%= host %>/<%= tb_port %>/auth" method="post" target="_blank" <%= show_tb %>>
-  <input type="hidden" name="password" value="<%= password %>">
-  <button class="btn btn-primary" type="submit">
-    <i class="fa fa-eye"></i> Connect to Tensorboard
   </button>
 </form>
 </div>

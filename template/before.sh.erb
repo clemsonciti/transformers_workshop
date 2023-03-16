@@ -34,16 +34,3 @@ c.ServerApp.jpserver_extensions = {"jupyterlab": True}
 c.NotebookApp.nbserver_extensions = {"jupyterlab": True}
 EOL
 )
-
-### This is to setup Tensorboard WebProxyServer
-
-export show_tb="hidden"
-if [ <%= context.workflow %> = "tensorflow" ]; then
-  export show_tb=""
-fi
-
-#echo ${show_tb} > ${HOME}/.ood_tensorboard.${host}.${port}
-#echo ${show_spark} > ${HOME}/.ood_spark.${host}.${port}
-
-# find available port to run Tensorboard server on
-export tb_port=$(find_port ${host})
