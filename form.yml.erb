@@ -1,0 +1,176 @@
+#<%-
+  # get _list_partitions
+#  p_cmd = "/opt/pbs/default/bin/qstat -Q | grep Rou | grep -v -E 'a100|p100|v100|k240|c1|c2|osg' | awk '{print $1}' | sort"
+#  begin
+#    output, status = Open3.capture2e(p_cmd)
+#    if status.success?
+#      _list_partitions = output.split("\n").map(&:strip).reject(&:blank?).sort
+#    else
+#      raise output
+#    end
+#  rescue => e
+#    _list_partitions = []
+#    p_error = e.message.strip
+#  end
+#
+#-%>
+#---
+
+# **MUST** set cluster id here that matches cluster configuration file located
+# under /etc/ood/config/clusters.d/*.yml
+
+cluster: "palmetto"
+
+attributes:
+
+  # Palmetto PBS specific options
+  pbs_select:
+    label: "Number of resource chunks (select)"
+    value: "1"
+      
+  pbs_ncpus:
+    label: "CPU cores per chunk (ncpus)"
+    value: "1"
+    help: |
+      <small> - Typical Palmetto compute nodes have <b>8, 12, 16, 20, 24, 28, 40, and 56</b> cores.<br>
+      - DGX nodes have <b>128</b> cores.<br>
+      - Bigmem nodes have <b>24, 32, 40, and 80</b> cores.
+      - <b>Users can request any number of cores that is smaller than the number of available cores.</b>
+      </small>
+      
+  pbs_mem:
+    label: "Amount of memory per chunk (mem)"
+    value: "1gb"
+    help: |
+      <small> - Typical Palmetto compute nodes have <b>15gb, 30gb, 46gb, 62gb, 125gb, 372gb, 748gb, and 990gb</b> of memory.<br>
+      - DGX nodes have <b>990gb</b> of memory.<br>
+      - Bigmem nodes have <b>500gb and 750gb</b> and <b>1tb and 1.5tb</b> of memory.
+      </small>
+
+  pbs_ngpus:
+    label: "Number of GPUs per chunk (ngpus)"
+    widget: "select"
+    value: "0"
+    options:
+      - ["None",""]
+      - ["1",":ngpus=1"]
+      - ["2",":ngpus=2"]
+      - ["4",":ngpus=4"]
+
+  pbs_gpu_model:
+    label: "GPU Model (gpu_model)"
+    widget: "select"
+    value: "none"
+    options:
+      - ["None",""]
+      - ["Any", ":gpu_model=any"]
+      - ["K20",":gpu_model=k20"]
+      - ["K40",":gpu_model=k40"]
+      - ["P100",":gpu_model=p100"]
+      - ["V100",":gpu_model=v100"]
+      - ["V100 with NVLink",":gpu_model=v100nv"]
+      - ["A100",":gpu_model=a100"]
+
+  pbs_interconnect:
+    label: "Interconnect"
+    widget: "select"
+    value: "any"
+    options:
+      - ["any",""]
+      - ["1g - Ethernet older phases 1-6",":interconnect=1g"]
+      - ["10g - Ethernet phase 7-18 and phase 0 (bigmem queue)",":interconnect=10ge"]
+      - ["25g - Ethernet phase 18b-27",":interconnect=25ge"]
+      - ["56g - Ethernet phase 7-17",":interconnect=56g"]
+      - ["fdr - Infiniband phase 7-17",":interconnect=fdr"]
+      - ["hdr - Infiniband phase 18 and above",":interconnect=hdr"]
+      - ["100g - Ethernet phase 18 and above",":interconnect=100g"]
+
+  pbs_walltime:
+    label: "Walltime"
+    value: "00:30:00"
+    help: |
+      <small> - Walltime format is <b>hh:mm:ss</b>.<br>
+      - Phase 1 through 6 nodes can be reserved up to 336 hours.<br> 
+      - Phase 7 through 27 nodes can be reserved up to 72 hours. 
+      </small>
+      
+  pbs_extras:
+    label: "Extra PBS resource allocation request"
+    value: ""
+    help: |
+      <small>- Enter the additional resource request just like how you would in a command line environment.<br>
+      - Each request should start with a colon <b>:</b> sign. <br>
+      - For example: <b>:chip_type=e5-2665</b></small>
+      
+  pbs_queue:
+    label: "Queue"
+    required: true
+    help: |
+      <small>Queue to submit the job to</small>
+    widget: select
+    value: "work1"
+    options:
+      <%- CustomQueues.queues.each do |g| %>
+      - ["<%= g %>","<%= g %>"]
+      <%- end %>
+
+  modules: 
+    label: "Anaconda Version"
+    widget: "select"
+    required: true
+    value: "anaconda3/2022.05-gcc/9.5.0"
+    options:
+      - ["anaconda3/2022.05-gcc/9.5.0","anaconda3/2022.05-gcc/9.5.0"]
+
+  pbs_modules:
+    label: "List of modules to be loaded, separate by an empty space"
+    value: ""
+    help: |
+      <small> Provide a space-separated list of modules to be loaded. <br>
+      - For example: <b>openjdk/11.0.2-gcc/8.3.1 jags/4.3.0-gcc/8.3.1</b>
+      </small>
+
+  pbs_venv:
+    label: "Path to Python virtual/conda environment"
+    value: ""
+    help: |
+      <small> Provide an activation command to load the corresponding Python <br>
+      virtual (venv) or conda environment. You can replace NAME_OF_ENVIRONMENT <br>
+      with a corresponding conda environment, or PATH_TO_VIRTUAL_ENVIRONMENT <br>
+      with a specific path to your venv environment directory. <br>
+      - Example conda: <b>conda activate NAME_OF_ENVIRONMENT</b> <br>
+      - Example venv: <b>source PATH_TO_VIRTUAL_ENVIRONMENT/bin/activate</b> <br>
+      </small>
+
+  workflow: 
+    label: "Notebook Workflow"
+    widget: "select"
+    required: true
+    value: "standard"
+    options:
+      - ["Standard Jupyter Notebook","standard"]
+      - ["Tensorflow Notebook","tensorflow"]
+
+  working_dir:
+    label: "Absolute path to working directory"
+    data-filepicker: true
+    data-target-file-type: dirs  # Valid values are: files, dirs, or both
+    readonly: false
+    help: "Select your project directory; defaults to $HOME"
+
+form:
+  - modules
+  - pbs_modules
+  - pbs_venv
+  - workflow
+  - pbs_select
+  - pbs_ncpus
+  - pbs_mem
+  - pbs_ngpus
+  - pbs_gpu_model
+  - pbs_interconnect
+  - pbs_extras
+  - pbs_walltime
+  - pbs_queue
+  - working_dir
+  - bc_email_on_started
