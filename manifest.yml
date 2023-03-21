@@ -4,5 +4,9 @@ category: Interactive Apps
 subcategory: Servers
 role: batch_connect
 description: "This app will launch a Jupyter Notebook server with builtin queue selections
-  that are specific to RCDE's Python Machine Learning and Deep Learning workshops\r\n\r\n"
+  that are specific to RCDE's Python Machine Learning and Deep Learning workshops.\r\n\r\n
+  The default option will launch on 1 computing allocation with 10 cores, 60gb of memory, 
+  and 1 P100 GPU card using a specially queue reserved for the workshop participants.\r\n\r\n 
+  Additional GPU card selections (V100 and A100) are available, but the queue must be changed 
+  to work1 queue.\r\n\r\n"
 icon: ''

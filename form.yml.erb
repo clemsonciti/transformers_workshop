@@ -23,6 +23,16 @@ cluster: "palmetto"
 
 attributes:
 
+
+  pbs_gpu_model:
+    label: "GPU Model (gpu_model)"
+    widget: "select"
+    value: "P100"
+    options:
+      - ["P100",":gpu_model=p100"]
+      - ["V100",":gpu_model=v100"]
+      - ["A100",":gpu_model=a100"]
+      
   pbs_queue:
     label: "Queue"
     required: true
@@ -53,5 +63,6 @@ attributes:
 form:
   - modules
   - pbs_venv
+  - pbs_gpu_model
   - pbs_queue
   - bc_email_on_started
