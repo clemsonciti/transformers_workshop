@@ -19,38 +19,17 @@
 # **MUST** set cluster id here that matches cluster configuration file located
 # under /etc/ood/config/clusters.d/*.yml
 
-cluster: "palmetto"
+cluster: "palmetto2"
 
 attributes:
-
-
-  pbs_gpu_model:
-    label: "GPU Model (gpu_model)"
-    widget: "select"
-    value: "P100"
-    options:
-      - ["P100",":gpu_model=p100"]
-      - ["V100",":gpu_model=v100"]
-      - ["A100",":gpu_model=a100"]
-      
-  pbs_queue:
-    label: "Queue"
-    required: true
-    help: |
-      <small>Queue to submit the job to</small>
-    widget: select
-    value: "pytorch"
-    options:
-      - ["work1","work1"]
-      - ["pytorch","pytorch"]
-
+  
   modules: 
     label: "Anaconda Version"
     widget: "select"
     required: true
-    value: "anaconda3/2022.05-gcc/9.5.0"
+    value: "anaconda3/2022.10"
     options:
-      - ["anaconda3/2022.05-gcc/9.5.0","anaconda3/2022.05-gcc/9.5.0"]
+      - ["anaconda3/2022.10","anaconda3/2022.10"]
 
   pbs_venv:
     label: "Path to Pytorch environment"
@@ -63,6 +42,4 @@ attributes:
 form:
   - modules
   - pbs_venv
-  - pbs_gpu_model
-  - pbs_queue
   - bc_email_on_started

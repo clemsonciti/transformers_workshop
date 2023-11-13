@@ -28,9 +28,10 @@ batch_connect:
 
 script:
   native:
-    - "-N"
-    - "jserver"
-    - "-q"
-    - "<%= pbs_queue %>"
-    - "-l"
-    - "select=1:ncpus=10:mem=60gb:ngpus=1<%= pbs_gpu_model %>,walltime=06:00:00"
+    - "--job-name"
+    - "transformer_workshop"
+    - "--nodes=1"
+    - "--ntasks-per-node=1"
+    - "--cpus-per-task=32"
+    - "--mem=120G"
+    - "--gpus=1
