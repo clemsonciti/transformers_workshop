@@ -22,6 +22,15 @@
 cluster: "palmetto2"
 
 attributes:
+
+  reservation:
+    label: "Use Workshop Reservation?"
+    widget: "select"
+    required: true
+    value: "Yes"
+    options:
+      - ["Yes"]
+      - ["No"]
   
   modules: 
     label: "Anaconda Version"
@@ -40,6 +49,7 @@ attributes:
       </small>
 
 form:
+  - reservation
   - modules
   - pbs_venv
   - bc_email_on_started

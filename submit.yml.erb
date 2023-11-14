@@ -36,3 +36,6 @@ script:
     - "--mem=120G"
     - "--gpus=1"
     - "--time=4:00:00"
+    <%- if reservation =~ /Yes/ %>
+    - "--reservation=pytorch"
+    <%- end -%> 
