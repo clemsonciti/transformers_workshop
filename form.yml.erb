@@ -1,21 +1,3 @@
-#<%-
-  # get _list_partitions
-#  p_cmd = "/opt/pbs/default/bin/qstat -Q | grep Rou | grep -v -E 'a100|p100|v100|k240|c1|c2|osg' | awk '{print $1}' | sort"
-#  begin
-#    output, status = Open3.capture2e(p_cmd)
-#    if status.success?
-#      _list_partitions = output.split("\n").map(&:strip).reject(&:blank?).sort
-#    else
-#      raise output
-#    end
-#  rescue => e
-#    _list_partitions = []
-#    p_error = e.message.strip
-#  end
-#
-#-%>
-#---
-
 # **MUST** set cluster id here that matches cluster configuration file located
 # under /etc/ood/config/clusters.d/*.yml
 
@@ -32,24 +14,6 @@ attributes:
       - ["Yes"]
       - ["No"]
   
-  modules: 
-    label: "Anaconda Version"
-    widget: "select"
-    required: true
-    value: "anaconda3/2022.10"
-    options:
-      - ["anaconda3/2022.10","anaconda3/2022.10"]
-
-  pbs_venv:
-    label: "Path to Pytorch environment"
-    value: ""
-    help: |
-      <small> Provide an activation command to load the pytorch environment. <br>
-      - Example: <b>source activate PATH_TO_A_PYTORCH_ENVIRONMENT</b> <br>
-      </small>
-
 form:
   - reservation
-  - modules
-  - pbs_venv
   - bc_email_on_started
